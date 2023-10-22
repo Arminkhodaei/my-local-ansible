@@ -57,3 +57,18 @@
         choco_args: '--allow-downgrade'
         state: upgrade
         version: "{{ VERSION }}"
+
+- name: Install Telegram
+  hosts: pcs
+  remote_user: Armin
+
+  vars:
+    VERSION: '4.10.2'
+
+  tasks:
+    - name: Install Telegram
+      win_chocolatey:
+        name: telegram
+        choco_args: '--allow-downgrade'
+        state: upgrade
+        version: "{{ VERSION }}"

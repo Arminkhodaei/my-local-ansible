@@ -43,3 +43,17 @@
       when: not plugin_zip_compare_stat.stat.exists
 
 
+- name: Install AnyDesk
+  hosts: pcs
+  remote_user: Armin
+
+  vars:
+    VERSION: '8.0.4'
+
+  tasks:
+    - name: Install AnyDesk
+      win_chocolatey:
+        name: anydesk
+        choco_args: '--allow-downgrade'
+        state: upgrade
+        version: "{{ VERSION }}"

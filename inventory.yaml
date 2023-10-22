@@ -1,0 +1,7 @@
+pcs:
+  hosts:
+    laptop_lenovo_windows:
+      ansible_host: 192.168.100.1
+      ansible_connection: ssh
+      ansible_shell_type: powershell
+

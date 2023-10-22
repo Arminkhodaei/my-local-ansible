@@ -1,0 +1,45 @@
+- name: Install notepad++ with plugins
+  hosts: pcs
+  remote_user: Armin
+
+  vars:
+    VERSION: '8.5.8'
+
+    ZIP_PLUGINS_DIR: 'C:\\Program Files\\Notepad++\\zipPlugins'
+
+    COMPARE_DIR: 'ComparePlus'
+    COMPARE_ZIP: 'ComparePlus_cp_1.1.0_x64.zip'
+    COMPARE_URL: "cp_1.1.0/{{ COMPARE_ZIP }}"
+
+  tasks:
+    - name: Install notepad++
+      win_chocolatey:
+        name: notepadplusplus
+        choco_args: '--allow-downgrade'
+        state: upgrade
+        version: "{{ VERSION }}"
+
+    - name: Create a zipPlugins folder
+      ansible.windows.win_file:
+        path: "{{ ZIP_PLUGINS_DIR }}"
+        state: directory
+
+    - name: Compare stat
+      win_stat:
+        path: "{{ ZIP_PLUGINS_DIR }}\\{{ COMPARE_ZIP }}"
+      register: plugin_zip_compare_stat
+
+    - name: Download Compare Plugin
+      win_get_url:
+        url: "https://github.com/pnedev/comparePlus/releases/download/{{ COMPARE_URL }}"
+        dest: "{{ ZIP_PLUGINS_DIR }}\\{{ COMPARE_ZIP }}"
+      when: not plugin_zip_compare_stat.stat.exists
+
+    - name: Unzip Compare Plugin
+      win_unzip:
+        src: "{{ ZIP_PLUGINS_DIR }}\\{{ COMPARE_ZIP }}"
+        dest: "C:\\Program Files\\Notepad++\\plugins\\{{ COMPARE_DIR }}"
+        creates: "C:\\Program Files\\Notepad++\\plugins\\{{ COMPARE_DIR }}"
+      when: not plugin_zip_compare_stat.stat.exists
+
+

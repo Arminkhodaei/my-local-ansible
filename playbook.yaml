@@ -1,3 +1,13 @@
+- name: Install Chocolatey
+  hosts: pcs
+  remote_user: Armin
+  
+  tasks:
+    - name: Install Chocolatey
+      win_chocolatey:
+        name: chocolatey
+        state: present
+
 - name: Install notepad++ with plugins
   hosts: pcs
   remote_user: Armin
@@ -71,4 +81,19 @@
         name: telegram
         choco_args: '--allow-downgrade'
         state: upgrade
+        version: "{{ VERSION }}"
+
+- name: Install Visual Studio 2022 Community
+  hosts: pcs
+  remote_user: Armin
+
+  vars:
+    VERSION: '117.8.0.0'
+
+  tasks:
+    - name: Install Visual Studio 2022 Community
+      win_chocolatey:
+        name: visualstudio2022community
+        state: upgrade
+        package_params: "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb" 
         version: "{{ VERSION }}"

@@ -97,3 +97,13 @@
         state: upgrade
         package_params: "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb" 
         version: "{{ VERSION }}"
+
+- name: Install Docker Desktop
+  hosts: pcs
+  remote_user: Armin
+
+  tasks:
+    - name: Install Docker Desktop
+      win_chocolatey:
+        name: docker-desktop
+        state: upgrade

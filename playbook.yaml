@@ -72,16 +72,12 @@
   hosts: pcs
   remote_user: Armin
 
-  vars:
-    VERSION: '4.10.2'
-
   tasks:
     - name: Install Telegram
       win_chocolatey:
         name: telegram
         choco_args: '--allow-downgrade'
         state: upgrade
-        version: "{{ VERSION }}"
 
 - name: Install Visual Studio 2022 Community
   hosts: pcs
@@ -106,4 +102,24 @@
     - name: Install Docker Desktop
       win_chocolatey:
         name: docker-desktop
+        state: upgrade
+
+- name: Install YT-DLP (Download Youtube Videos)
+  hosts: pcs
+  remote_user: Armin
+
+  tasks:
+    - name: Install yt-dlp
+      win_chocolatey:
+        name: yt-dlp
+        state: upgrade
+
+- name: Install Postman
+  hosts: pcs
+  remote_user: Armin
+
+  tasks:
+    - name: Install Postman
+      win_chocolatey:
+        name: postman
         state: upgrade
